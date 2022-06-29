@@ -20,7 +20,7 @@ function Game() {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return {winnerSymbol: squares[a], winningSquares: [a, b, c]}
       }
     }
     return null;
@@ -53,21 +53,26 @@ function Game() {
     'Go to game start';
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
+        <button onClick={() => jumpTo(move)}>
+        {move === stepNumber ? <b>{desc}</b> : desc}
+        </button>
       </li>
     );
   });
 
   let status;
   if (winner) {
-    status = 'Winner: ' + winner
+    status = 'Winner: ' + winner.winnerSymbol
+  } else if (!current.squares.includes(null)) {
+    status = 'Draw!'
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O')
   }
   return (
     <div className="game">
       <div className="game-board">
-        <Board 
+        <Board
+          winningSquares={winner ? winner.winningSquares : []}
           squares={current.squares}
           onClick={(i) => handleClick(i)}
         />
