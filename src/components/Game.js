@@ -5,6 +5,7 @@ function Game() {
   const [history, setHistory] = useState([{squares: Array(9).fill(null)}]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
+  const [isDescending, setIsDescending] = useState(true)
 
   const calculateWinner = (squares) => {
     const lines = [
@@ -44,6 +45,10 @@ function Game() {
     setXIsNext((step % 2 === 0));
   }
 
+  const reverseHistory = () => {
+    isDescending ? setIsDescending(false) : setIsDescending(true)
+  }
+
   const playsHistory = history;
   const current = playsHistory[stepNumber];
   const winner = calculateWinner(current.squares)
@@ -79,7 +84,8 @@ function Game() {
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <ol>{moves}</ol>
+        <ol>{isDescending ? moves : moves.reverse()}</ol>
+        <button onClick={() => reverseHistory()}>Reverse play history!</button>
       </div>
     </div>
   );
