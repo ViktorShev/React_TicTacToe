@@ -3,27 +3,28 @@ import Square from "./Square";
 export default function Board(props) {
   const renderSquare = (i) => {
     return (
-    <Square value={props.squares[i]} onClick={() => props.onClick(i)} />
+    <Square key={i} value={props.squares[i]} isWinner={props.winningSquares.includes(i)} onClick={() => props.onClick(i)} />
     );
   };
 
+  const renderSquares = (squareIdsList = []) => {
+    return (
+      <div className="board-row">
+        {squareIdsList.map(renderSquare)}
+      </div>
+    )
+    // let squares = []
+    // for (let i = 0; i < n; i++) {
+      // squares.push(renderSquare(i))
+    // }
+    // return squares
+  }
+
   return (
     <div>
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
+    {renderSquares([0, 1, 2])}
+    {renderSquares([3, 4, 5])}
+    {renderSquares([6, 7, 8])}
     </div>
   );
 }
