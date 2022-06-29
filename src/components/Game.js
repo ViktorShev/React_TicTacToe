@@ -7,6 +7,12 @@ function Game() {
   const [xIsNext, setXIsNext] = useState(true);
   const [isDescending, setIsDescending] = useState(true)
 
+  const boardColandRows = [
+    [1,1], [2,1], [3,1],
+    [1,2], [2,2], [3,2],
+    [1,3], [2,3], [3,3]
+  ]
+
   const calculateWinner = (squares) => {
     const lines = [
       [0, 1, 2],
@@ -35,7 +41,7 @@ function Game() {
       return;
     }
     squares[i] = xIsNext ? 'X' : 'O'
-    setHistory(playsHistory.concat([{squares: squares}]));
+    setHistory(playsHistory.concat([{squares: squares, squareColandRow: boardColandRows[i]}]));
     setXIsNext(!xIsNext);
     setStepNumber(playsHistory.length);
   }
@@ -54,7 +60,7 @@ function Game() {
   const winner = calculateWinner(current.squares)
   const moves = playsHistory.map((_step, move) => {
     const desc = move ?
-    'Go to move #' + move :
+    'Go to move #' + move + ' at column: ' + playsHistory[move].squareColandRow[0] + ' / row ' + playsHistory[move].squareColandRow[1] :
     'Go to game start';
     return (
       <li key={move}>
